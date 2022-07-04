@@ -1,3 +1,5 @@
+cd $1
+
 flutter clean
 
 flutter packages get
