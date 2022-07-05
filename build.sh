@@ -4,11 +4,15 @@ echo "---------------------------------"
 myArray=()
 
 index=0
-for entry in /Users/limeng/Developer/*
-do
-  myArray+=($entry)
 
-  echo "$index: $entry"
+printf "%-4s %-20s\n" 编号 项目名称
+
+for entry in $(find /Users/limeng/Developer -maxdepth 2 -name pubspec.yaml)
+do
+  tmp=${entry%/*}
+  myArray+=($tmp)
+  name=${tmp##*/}
+  printf "%-4s %-20s\n" $index $name
   let "index++"
 done
 echo "---------------------------------"

@@ -6,13 +6,18 @@ flutter packages get
 
 mkdir channel
 
-sh build_channel.sh xiaomi
-sh build_channel.sh huawei
-sh build_channel.sh yingyongbao
-sh build_channel.sh vivo
-sh build_channel.sh oppo
-sh build_channel.sh meizu
-sh build_channel.sh m360
+build_apk(){
+    flutter build apk --dart-define=app-channel=$1 --obfuscate --split-debug-info=symbols
+    mv build/app/outputs/apk/release/app-release.apk channel/$1.apk
+}
+
+build_apk xiaomi
+build_apk huawei
+build_apk yingyongbao
+build_apk vivo
+build_apk oppo
+build_apk meizu
+build_apk m360
 
 open channel
 
