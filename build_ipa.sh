@@ -19,3 +19,5 @@ ipa="build/ios/ipa/$name.ipa"
 # xcrun altool --validate-app -f $ipa -t ios --apiKey $apiKey --apiIssuer $apiIssure --verbose
 # 上传
 xcrun altool --upload-app -f $ipa -t ios --apiKey $apiKey --apiIssuer $apiIssure --verbose
+
+say "上传Appstore成功"

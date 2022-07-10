@@ -64,3 +64,5 @@ if [ $androidFlag == true ]; then
 
   ~/ossutil/ossutil64 cp $apk_version $oss_path -f
 fi
+
+say "Beta版上传成功"
