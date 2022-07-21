@@ -19,6 +19,8 @@ build_apk oppo
 build_apk meizu
 build_apk m360
 
-open channel
+zip -r -m -P octmon channel.zip channel
+
+open .
 
 say "渠道包打包成功"
