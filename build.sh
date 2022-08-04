@@ -7,7 +7,7 @@ index=0
 
 printf "%-4s %-20s\n" 编号 项目名称
 
-for entry in $(find /Users/limeng/Developer -maxdepth 2 -name pubspec.yaml)
+for entry in $(find ~/Developer -maxdepth 2 -name pubspec.yaml)
 do
   tmp=${entry%/*}
   myArray+=($tmp)
@@ -61,3 +61,5 @@ case $aNum in
   echo '你没有输入 1 到 5 之间的数字'
   ;;
 esac
+
+cd ~/
