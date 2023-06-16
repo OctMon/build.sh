@@ -1,5 +1,7 @@
 cd $1
 
+pgyer_api_key=$(cat pubspec.yaml | grep "pgyer_api_key: " | awk '{print $2}')
+
 iosFlag=false
 androidFlag=false
 
@@ -48,6 +50,19 @@ fi
 version=$(cat pubspec.yaml | grep "version:" | awk '{print $2}')
 
 if [ $iosFlag == true ]; then
+
+  if [[ -n "${pgyer_api_key}" ]]
+      then
+          #上传到pgyer
+          echo "正在上传到蒲公英..."
+          echo
+          file_ipa="$build_ios_name.ipa"
+          curl -F "file=@${file_ipa}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.pgyer.com/apiv2/app/upload
+          echo
+          say "iOS上传蒲公英成功"
+          echo
+  fi
+
   ~/ossutil/ossutil64 cp $build_ios_name.ipa $oss_path -f
 
   ipa_version="${build_ios_name}_ipa".version
@@ -57,6 +72,19 @@ if [ $iosFlag == true ]; then
 fi
 
 if [ $androidFlag == true ]; then
+
+if [[ -n "${pgyer_api_key}" ]]
+      then
+          #上传到pgyer
+          echo "正在上传到蒲公英..."
+          echo
+          file_apk="$build_android_name.apk"
+          curl -F "file=@${file_apk}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.pgyer.com/apiv2/app/upload
+          echo
+          say "android上传蒲公英成功"
+          echo
+  fi
+
   ~/ossutil/ossutil64 cp $build_android_name.apk $oss_path -f
 
   apk_version="${build_android_name}_apk".version
