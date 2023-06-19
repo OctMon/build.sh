@@ -47,6 +47,13 @@ fi
 
 # ----- upload -----
 
+ossUtilInstall=0
+if command -v ~/ossutil/ossutil64 >/dev/null 2>&1;then
+   ossUtilInstall=1
+fi
+
+echo $ossUtilInstall
+
 version=$(cat pubspec.yaml | grep "version:" | awk '{print $2}')
 
 if [ $iosFlag == true ]; then
@@ -54,7 +61,7 @@ if [ $iosFlag == true ]; then
   if [[ -n "${pgyer_api_key}" ]]
       then
           #上传到pgyer
-          echo "正在上传到蒲公英..."
+          echo "正在上传ipa到蒲公英..."
           echo
           file_ipa="$build_ios_name.ipa"
           curl -F "file=@${file_ipa}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.pgyer.com/apiv2/app/upload
@@ -63,12 +70,17 @@ if [ $iosFlag == true ]; then
           echo
   fi
 
-  ~/ossutil/ossutil64 cp $build_ios_name.ipa $oss_path -f
+  if [ $ossUtilInstall -eq 1 ]; then
+      echo "正在上传ipa到OSS..."
+      echo
+      ~/ossutil/ossutil64 cp $build_ios_name.ipa $oss_path -f
 
-  ipa_version="${build_ios_name}_ipa".version
-  echo "{\"version\": \"$version\"}" > $ipa_version
+      ipa_version="${build_ios_name}_ipa".version
+      echo "{\"version\": \"$version\"}" > $ipa_version
 
-  ~/ossutil/ossutil64 cp $ipa_version $oss_path -f
+      ~/ossutil/ossutil64 cp $ipa_version $oss_path -f
+  fi
+
 fi
 
 if [ $androidFlag == true ]; then
@@ -76,7 +88,7 @@ if [ $androidFlag == true ]; then
 if [[ -n "${pgyer_api_key}" ]]
       then
           #上传到pgyer
-          echo "正在上传到蒲公英..."
+          echo "正在上传apk到蒲公英..."
           echo
           file_apk="$build_android_name.apk"
           curl -F "file=@${file_apk}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.pgyer.com/apiv2/app/upload
@@ -85,12 +97,17 @@ if [[ -n "${pgyer_api_key}" ]]
           echo
   fi
 
-  ~/ossutil/ossutil64 cp $build_android_name.apk $oss_path -f
+  if [ $ossUtilInstall -eq 1 ]; then
+      echo "正在上传apk到OSS..."
+      echo
+      ~/ossutil/ossutil64 cp $build_android_name.apk $oss_path -f
 
-  apk_version="${build_android_name}_apk".version
-  echo "{\"version\": \"$version\"}" > $apk_version
+      apk_version="${build_android_name}_apk".version
+      echo "{\"version\": \"$version\"}" > $apk_version
 
-  ~/ossutil/ossutil64 cp $apk_version $oss_path -f
+      ~/ossutil/ossutil64 cp $apk_version $oss_path -f
+  fi
+
 fi
 
 say "Beta版上传成功"
