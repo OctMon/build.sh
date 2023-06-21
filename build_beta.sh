@@ -5,7 +5,7 @@ pgyer_api_key=$(cat pubspec.yaml | grep "pgyer_api_key: " | awk '{print $2}')
 iosFlag=false
 androidFlag=false
 
-if [[ $2 = "ios" || $3 = "ios" ]]
+if [[ $2 == "release" || $2 = "ios" || $3 = "ios" ]]
 then
   iosFlag=true
   echo "☑︎ iOS"
@@ -13,7 +13,7 @@ else
   echo "☒︎ iOS"
 fi
 
-if [[ $2 = "android" || $3 = "android" ]]
+if [[ $2 == "release" || $2 = "android" || $3 = "android" ]]
 then
   androidFlag=true
   echo "☑︎ android"
@@ -26,7 +26,17 @@ flutter clean
 flutter packages get
 
 if [ $iosFlag == true ]; then
-  flutter build ipa --export-method ad-hoc --dart-define=app-debug-flag=true --obfuscate --split-debug-info=symbols
+  echo
+  echo "---------------------------------"
+  if [[ $2 == "release" ]]; then
+    echo "build iOS beta release"
+    flutter build ipa --export-method ad-hoc --obfuscate --split-debug-info=symbols
+  else
+    echo "build iOS beta test"
+    flutter build ipa --export-method ad-hoc --dart-define=app-debug-flag=true --obfuscate --split-debug-info=symbols
+  fi
+  echo "---------------------------------"
+  echo
 fi
 
 name=$(cat pubspec.yaml | grep "name: " | awk '{print $2}' | head -n 1)
@@ -38,7 +48,17 @@ oss_path="oss://octmon/release/$name/"
 # open build/ios/ipa
 
 if [ $androidFlag == true ]; then
-  flutter build apk --dart-define=app-channel=beta --dart-define=app-debug-flag=true --obfuscate --split-debug-info=symbols
+  echo
+  echo "---------------------------------"
+  if [[ $2 == "release" ]]; then
+    echo "build android beta release"
+    flutter build apk --dart-define=app-channel=beta --obfuscate --split-debug-info=symbols
+  else
+    echo "build android beta test"
+    flutter build apk --dart-define=app-channel=beta --dart-define=app-debug-flag=true --obfuscate --split-debug-info=symbols
+  fi
+  echo "---------------------------------"
+  echo
   
   mv build/app/outputs/apk/release/app-release.apk $build_android_name.apk
 fi
