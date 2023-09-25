@@ -84,7 +84,8 @@ if [ $iosFlag == true ]; then
           echo "正在上传ipa到蒲公英..."
           echo
           file_ipa="$build_ios_name.ipa"
-          curl -F "file=@${file_ipa}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.pgyer.com/apiv2/app/upload
+#          curl -F "file=@${file_ipa}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.pgyer.com/apiv2/app/upload
+          curl -F "file=@${file_ipa}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.xcxwo.com/apiv2/app/upload
           echo
           say "iOS上传蒲公英成功"
           echo
@@ -111,7 +112,8 @@ if [[ -n "${pgyer_api_key}" ]]
           echo "正在上传apk到蒲公英..."
           echo
           file_apk="$build_android_name.apk"
-          curl -F "file=@${file_apk}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.pgyer.com/apiv2/app/upload
+#          curl -F "file=@${file_apk}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.pgyer.com/apiv2/app/upload
+          curl -F "file=@${file_apk}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.xcxwo.com/apiv2/app/upload
           echo
           say "android上传蒲公英成功"
           echo
