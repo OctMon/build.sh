@@ -4,7 +4,7 @@ flutter clean
 
 flutter packages get
 
-flutter build ipa --obfuscate --split-debug-info=symbols --verbose
+flutter build ipa --obfuscate --split-debug-info=symbols
 
 #  apikey 为密钥ID, apiIssure 为 Issuer Id
 # ·验证成功后会提示 No errors validating ……
