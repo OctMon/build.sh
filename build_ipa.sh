@@ -19,7 +19,7 @@ apiIssure=$(cat pubspec.yaml | grep "apiIssure: " | awk '{print $2}')
 ipa="build/ios/ipa/$name.ipa"
 
 if [[ $2 == "validate" ]]; then
-  echo "🌞$2"
+    echo "🌞$2"
     # 验证
     xcrun altool --validate-app -f $ipa -t ios --apiKey $apiKey --apiIssuer $apiIssure --verbose
 else

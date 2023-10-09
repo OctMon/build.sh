@@ -4,23 +4,35 @@ flutter clean
 
 flutter packages get
 
-mkdir channel
+if [[ $2 == "channel" ]]; then
 
-build_apk(){
-    flutter build apk --dart-define=app-channel=$1 --obfuscate --split-debug-info=symbols
-    mv build/app/outputs/apk/release/app-release.apk channel/$1.apk
-}
+    echo "🎁$2"
+    mkdir channel
 
-build_apk xiaomi
-build_apk huawei
-build_apk yingyongbao
-build_apk vivo
-build_apk oppo
-build_apk meizu
-build_apk m360
+    build_apk(){
+        flutter build apk --dart-define=app-channel=$1 --obfuscate --split-debug-info=symbols
+        mv build/app/outputs/apk/release/app-release.apk channel/$1.apk
+    }
 
-zip -r -m -P octmon channel.zip channel
+    build_apk xiaomi
+    build_apk huawei
+    build_apk yingyongbao
+    build_apk vivo
+    build_apk oppo
+    build_apk meizu
+    build_apk m360
 
-open .
+    zip -r -m -P octmon channel.zip channel
 
-say "渠道包打包成功"
+    open .
+
+    say "渠道包打包成功"
+
+else
+
+    echo "$2"
+    flutter build appbundle --obfuscate --split-debug-info=symbols
+    open build/app/outputs/bundle/release
+
+    say "aab打包成功"
+fi

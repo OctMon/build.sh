@@ -29,16 +29,23 @@ project=${myArray[answer]}
 echo $project
 echo
 
-echo '输入 1 到 5 之间的数字:'
-echo '1: Beta-iOS'
-echo '2: Beta-android'
-echo '3: Beta-all'
-echo '4: Release-all'
-echo '5a: Appstore (验证)'
-echo '5b: Appstore (上传)'
-echo '6: Android'
+echo "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀"
+echo
+echo '********** 请输入指令 **********'
+echo
+echo '1: 📱 Beta-iOS'
+echo '2: 📱 Beta-android'
+echo '3: 📱 Beta-all'
+echo '4: 🎈 Release-all'
+echo '5a:🧑🏻‍💻 Appstore (验证)'
+echo '5b:🧑🏻‍💻 Appstore (上传)'
+echo '6: 📦 Android (aab)'
+echo '7: 📦 Android (channel)'
+echo
+echo "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀"
 
-echo '你输入的数字为:'
+echo
+echo '你输入的:'
 read aNum
 case $aNum in
 1)
@@ -66,8 +73,12 @@ case $aNum in
   sh build_ipa.sh $project "upload"
   ;;
 6)
-  echo '你选择了 6'
-  sh build_apk.sh $project
+  echo '你选择了 6 Android (aab)'
+  sh build_apk.sh $project "aab"
+  ;;
+7)
+  echo '你选择了 7 Android (channel)'
+  sh build_apk.sh $project "channel"
   ;;
 *)
   echo '你没有正确输入, 联系我 -> https://github.com/OctMon/build.sh'
