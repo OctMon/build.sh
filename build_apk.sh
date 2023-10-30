@@ -31,7 +31,8 @@ if [[ $2 == "channel" ]]; then
 else
 
     echo "$2"
-    flutter build appbundle --obfuscate --split-debug-info=symbols
+    # flutter build appbundle --obfuscate --split-debug-info=symbols
+    flutter build appbundle --target-platform android-arm64 --obfuscate --split-debug-info=symbols
     open build/app/outputs/bundle/release
 
     say "aab打包成功"
