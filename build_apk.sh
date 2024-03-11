@@ -21,6 +21,7 @@ if [[ $2 == "channel" ]]; then
     build_apk oppo
     build_apk meizu
     build_apk m360
+    build_apk samsung
 
     zip -r -m -P octmon channel.zip channel
 
