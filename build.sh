@@ -40,7 +40,8 @@ echo '4: 🎈 Release-all'
 echo '5a:🧑🏻‍💻 Appstore (验证)'
 echo '5b:🧑🏻‍💻 Appstore (上传)'
 echo '6: 📦 Android (aab)'
-echo '7: 📦 Android (channel)'
+echo '7: 📦 Android (all channel)'
+echo '8: 📦 Android (input channel)'
 echo
 echo "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀"
 
@@ -77,8 +78,14 @@ case $aNum in
   sh build_apk.sh $project "aab"
   ;;
 7)
-  echo '你选择了 7 Android (channel)'
+  echo '你选择了 7 Android (all channel)'
   sh build_apk.sh $project "channel"
+  ;;
+8)
+  echo '你选择了 8 Android (input channel)'
+  echo "输入渠道名称"
+  read channel
+  sh build_apk.sh $project "channel" $channel
   ;;
 *)
   echo '你没有正确输入, 联系我 -> https://github.com/OctMon/build.sh'
