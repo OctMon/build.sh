@@ -22,7 +22,9 @@ else
       mkdir channel
 
       build_apk(){
+          echo "🗂️  $1"
           flutter build apk --target-platform android-arm64 --dart-define=app-channel=$1 --obfuscate --split-debug-info=symbols
+          mv build/app/outputs/apk/release/app-release.apk channel/$1.apk
       }
 
       build_apk xiaomi
