@@ -27,6 +27,7 @@ else
           mv build/app/outputs/apk/release/app-release.apk channel/$1.apk
       }
 
+      build_apk official
       build_apk xiaomi
       build_apk huawei
       build_apk yingyongbao
