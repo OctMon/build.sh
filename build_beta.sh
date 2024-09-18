@@ -2,6 +2,11 @@ cd $1
 
 pgyer_api_key=$(cat pubspec.yaml | grep "pgyer_api_key: " | awk '{print $2}')
 
+accessKeySecret=$(cat pubspec.yaml | grep "accessKeySecret: " | awk '{print $2}')
+endpoint=$(cat pubspec.yaml | grep "endpoint: " | awk '{print $2}')
+accessKeyID=$(cat pubspec.yaml | grep "accessKeyID: " | awk '{print $2}')
+ossPath=$(cat pubspec.yaml | grep "ossPath: " | awk '{print $2}')
+
 iosFlag=false
 androidFlag=false
 
@@ -43,8 +48,6 @@ name=$(cat pubspec.yaml | grep "name: " | awk '{print $2}' | head -n 1)
 
 build_ios_name="build/ios/ipa/$name"
 build_android_name="build/app/outputs/apk/release/$name"
-oss_path="oss://octmon/release/$name/"
-
 # open build/ios/ipa
 
 if [ $androidFlag == true ]; then
@@ -94,12 +97,12 @@ if [ $iosFlag == true ]; then
   if [ $ossUtilInstall -eq 1 ]; then
       echo "正在上传ipa到OSS..."
       echo
-      ~/ossutil/ossutil64 cp $build_ios_name.ipa $oss_path -f
+      ~/ossutil/ossutil64 -e $endpoint -i $accessKeyID -k $accessKeySecret cp $build_ios_name.ipa $ossPath -f
 
       ipa_version="${build_ios_name}_ipa".version
       echo "{\"version\": \"$version\"}" > $ipa_version
 
-      ~/ossutil/ossutil64 cp $ipa_version $oss_path -f
+      ~/ossutil/ossutil64 -e $endpoint -i $accessKeyID -k $accessKeySecret cp $ipa_version $ossPath -f
   fi
 
 fi
@@ -122,12 +125,12 @@ if [[ -n "${pgyer_api_key}" ]]
   if [ $ossUtilInstall -eq 1 ]; then
       echo "正在上传apk到OSS..."
       echo
-      ~/ossutil/ossutil64 cp $build_android_name.apk $oss_path -f
+      ~/ossutil/ossutil64 -e $endpoint -i $accessKeyID -k $accessKeySecret cp $build_android_name.apk $ossPath -f
 
       apk_version="${build_android_name}_apk".version
       echo "{\"version\": \"$version\"}" > $apk_version
 
-      ~/ossutil/ossutil64 cp $apk_version $oss_path -f
+      ~/ossutil/ossutil64 -e $endpoint -i $accessKeyID -k $accessKeySecret cp $apk_version $ossPath -f
   fi
 
 fi
