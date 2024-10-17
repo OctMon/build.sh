@@ -30,6 +30,7 @@ else
       build_apk official
       build_apk xiaomi
       build_apk huawei
+      build_apk honor
       build_apk yingyongbao
       build_apk vivo
       build_apk oppo
