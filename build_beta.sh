@@ -35,10 +35,10 @@ if [ $iosFlag == true ]; then
   echo "---------------------------------"
   if [[ $2 == "release" ]]; then
     echo "build iOS beta release"
-    flutter build ipa --dart-define=app-channel=appstore --export-method ad-hoc --obfuscate --split-debug-info=symbols
+    flutter build ipa --dart-define=app-channel=official --export-method ad-hoc --obfuscate --split-debug-info=symbols
   else
     echo "build iOS beta test"
-    flutter build ipa --dart-define=app-channel=appstore --export-method ad-hoc --dart-define=app-debug-flag=true --obfuscate --split-debug-info=symbols
+    flutter build ipa --dart-define=app-channel=official --dart-define=app-debug-flag=true --export-method ad-hoc --obfuscate --split-debug-info=symbols
   fi
   echo "---------------------------------"
   echo
