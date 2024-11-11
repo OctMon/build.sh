@@ -176,7 +176,7 @@ echo "iOS扫码下载: "
 qrencode -m 2 -t UTF8 "itms-services://?action=download-manifest&url=$oss_file_path$name.plist"
 echo
 echo "Android扫码下载: "
-qrencode -m 2 -t UTF8 "$oss_file_path$name.apk"
+qrencode -m 2 -l Q -t UTF8 "$oss_file_path$name.apk"
 echo
 echo
 echo
