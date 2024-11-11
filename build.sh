@@ -1,6 +1,16 @@
 #!/bin/bash
 
-pwd
+echo '█▀█ █▀▀ ▀█▀ █▀▄▀█ █▀█ █▄░█'
+echo '█▄█ █▄▄ ░█░ █░▀░█ █▄█ █░▀█'
+echo 'https://github.com/OctMon/build.sh'
+
+# 获取当前工作目录
+current_dir=$(pwd)
+
+# 获取父目录
+parent_dir=$(dirname $current_dir)
+
+maxdepth=2
 
 echo "---------------------------------"
 myArray=()
@@ -9,7 +19,7 @@ index=0
 
 printf "%-4s %-20s\n" 编号 项目名称
 
-for entry in $(find ~/Developer -maxdepth 2 -name pubspec.yaml)
+for entry in $(find $parent_dir -maxdepth $maxdepth -name pubspec.yaml)
 do
   tmp=${entry%/*}
   myArray+=($tmp)
@@ -18,7 +28,7 @@ do
   let "index++"
 done
 echo "---------------------------------"
-pwd
+echo $parent_dir
 
 echo
 echo "输入项目编号 0 - `expr ${#myArray[@]} - 1`"
