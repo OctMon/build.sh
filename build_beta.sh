@@ -4,7 +4,7 @@ pgyer_api_key=$(cat pubspec.yaml | grep "pgyer_api_key: " | awk '{print $2}')
 
 oss_access_key_id=$(cat pubspec.yaml | grep "oss_access_key_id: " | awk '{print $2}')
 oss_access_key_secret=$(cat pubspec.yaml | grep "oss_access_key_secret: " | awk '{print $2}')
-endpoint=$(cat pubspec.yaml | grep "endpoint: " | awk '{print $2}')
+oss_endpoint=$(cat pubspec.yaml | grep "oss_endpoint: " | awk '{print $2}')
 oss_upload_path=$(cat pubspec.yaml | grep "oss_upload_path: " | awk '{print $2}')
 oss_file_path=$(cat pubspec.yaml | grep "oss_file_path: " | awk '{print $2}')
 
@@ -115,12 +115,12 @@ if [ $iosFlag == true ]; then
   if [ $ossUtilInstall -eq 1 ]; then
     echo "正在上传ipa到OSS..."
     echo
-    ossutil -e $endpoint -i $oss_access_key_id -k $oss_access_key_secret cp $build_ios_name.ipa $oss_upload_path -f
+    ossutil -e $oss_endpoint -i $oss_access_key_id -k $oss_access_key_secret cp $build_ios_name.ipa $oss_upload_path -f
 
     ipa_version="${build_ios_name}_ipa".version
     echo "{\"version\": \"$version\"}" > $ipa_version
 
-    ossutil -e $endpoint -i $oss_access_key_id -k $oss_access_key_secret cp $ipa_version $oss_upload_path -f
+    ossutil -e $oss_endpoint -i $oss_access_key_id -k $oss_access_key_secret cp $ipa_version $oss_upload_path -f
   fi
 
 fi
@@ -143,12 +143,12 @@ if [ $androidFlag == true ]; then
   if [ $ossUtilInstall -eq 1 ]; then
     echo "正在上传apk到OSS..."
     echo
-    ossutil -e $endpoint -i $oss_access_key_id -k $oss_access_key_secret cp $build_android_name.apk $oss_upload_path -f
+    ossutil -e $oss_endpoint -i $oss_access_key_id -k $oss_access_key_secret cp $build_android_name.apk $oss_upload_path -f
 
     apk_version="${build_android_name}_apk".version
     echo "{\"version\": \"$version\"}" > $apk_version
 
-    ossutil -e $endpoint -i $oss_access_key_id -k $oss_access_key_secret cp $apk_version $oss_upload_path -f
+    ossutil -e $oss_endpoint -i $oss_access_key_id -k $oss_access_key_secret cp $apk_version $oss_upload_path -f
   fi
 
 fi
