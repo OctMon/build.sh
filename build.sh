@@ -23,6 +23,7 @@ echo 'https://github.com/OctMon/build.sh'
 echo
 echo '█▀█ █▀▀ ▀█▀ █▀▄▀█ █▀█ █▄░█'
 echo '█▄█ █▄▄ ░█░ █░▀░█ █▄█ █░▀█'
+echo
 
 # 获取当前工作目录
 current_dir=$(pwd)
@@ -30,33 +31,41 @@ current_dir=$(pwd)
 # 获取父目录
 parent_dir=$(dirname $current_dir)
 
-maxdepth=2
+project=$(find $1 -maxdepth 1 -name "pubspec.yaml")
 
-echo "---------------------------------"
-myArray=()
+if [ -z "$project" ]; then
+#  echo "pubspec.yaml not found in the current directory."
+  maxdepth=2
 
-index=0
+  echo "---------------------------------"
+  myArray=()
 
-printf "%-4s %-20s\n" 编号 项目名称
+  index=0
 
-for entry in $(find $parent_dir -maxdepth $maxdepth -name pubspec.yaml)
-do
-  tmp=${entry%/*}
-  myArray+=($tmp)
-  name=${tmp##*/}
-  printf "%-4s %-20s\n" $index $name
-  let "index++"
-done
-echo "---------------------------------"
-echo $parent_dir
+  printf "%-4s %-20s\n" 编号 项目名称
 
-echo
-echo "输入项目编号 0 - `expr ${#myArray[@]} - 1`"
-read answer
+  for entry in $(find $parent_dir -maxdepth $maxdepth -name pubspec.yaml)
+  do
+    tmp=${entry%/*}
+    myArray+=($tmp)
+    name=${tmp##*/}
+    printf "%-4s %-20s\n" $index $name
+    let "index++"
+    done
+    echo "---------------------------------"
+    echo $parent_dir
 
-project=${myArray[answer]}
+    echo
+    echo "输入项目编号 0 - `expr ${#myArray[@]} - 1`"
+    read answer
 
-echo $project
+    project=${myArray[answer]}
+  else
+#    echo "pubspec.yaml found: $project"
+    project=${project%/*}
+fi
+
+echo "project: $project"
 echo
 
 echo "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀"
@@ -74,6 +83,8 @@ echo '7: 📦 Android (all channel)'
 echo '8: 📦 Android (input channel)'
 echo
 echo "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀"
+
+start=$(date +%s)
 
 echo
 echo '你输入的:'
@@ -122,4 +133,12 @@ case $aNum in
   ;;
 esac
 
-cd ~/
+if [[ -n "$1" ]]
+  then
+    cd $1
+fi
+
+end=$(date +%s)
+duration=$((end - start))
+echo "Total time: $duration seconds"
+
