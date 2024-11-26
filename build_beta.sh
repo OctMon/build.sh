@@ -9,11 +9,10 @@ oss_upload_path=$(cat pubspec.yaml | grep "oss_upload_path: " | awk '{print $2}'
 oss_file_path=$(cat pubspec.yaml | grep "oss_file_path: " | awk '{print $2}')
 
 name=$(cat pubspec.yaml | grep "name: " | awk '{print $2}' | head -n 1)
-version=$(cat pubspec.yaml | grep "version: " | awk '{print $2}')
+version=$(cat pubspec.yaml | grep "version: " | awk '{print $2}' | head -n 1)
 
 iosFlag=false
 androidFlag=false
-
 
 if [[ -n "${pgyer_api_key}" ]]
 then
