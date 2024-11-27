@@ -5,8 +5,6 @@ pgyer_api_key=$(cat pubspec.yaml | grep "pgyer_api_key: " | awk '{print $2}')
 oss_access_key_id=$(cat pubspec.yaml | grep "oss_access_key_id: " | awk '{print $2}')
 oss_access_key_secret=$(cat pubspec.yaml | grep "oss_access_key_secret: " | awk '{print $2}')
 oss_endpoint=$(cat pubspec.yaml | grep "oss_endpoint: " | awk '{print $2}')
-oss_upload_path=$(cat pubspec.yaml | grep "oss_upload_path: " | awk '{print $2}')
-oss_file_path=$(cat pubspec.yaml | grep "oss_file_path: " | awk '{print $2}')
 
 name=$(cat pubspec.yaml | grep "name: " | awk '{print $2}' | head -n 1)
 version=$(cat pubspec.yaml | grep "version: " | awk '{print $2}' | head -n 1)
@@ -34,6 +32,47 @@ then
     sudo -v ; curl https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
     echo "ossutil安装成功"
     ossUtilInstall=1
+  fi
+
+  echo "---------------------------------"
+  oss_upload_path_array=$(cat pubspec.yaml | grep "oss_upload_path: " | awk '{print $2}')
+  if [[ -n $oss_upload_path_array ]]; then
+    echo "🗂 ️ $oss_upload_path_array"
+    # 将字符串转换为数组
+    IFS=',' read -r -a oss_upload_path_array <<< "$oss_upload_path_array"
+  fi
+  oss_file_path_array=$(cat pubspec.yaml | grep "oss_file_path: " | awk '{print $2}')
+  if [[ -n $oss_file_path_array ]]; then
+    echo "🗂️  $oss_file_path_array"
+    # 将字符串转换为数组
+    IFS=',' read -r -a oss_file_path_array <<< "$oss_file_path_array"
+  fi
+
+  # 获取长度
+  oss_upload_path_length=${#oss_upload_path_array[@]}
+  echo "数组长度是：$oss_upload_path_length"
+  # 判断是否大于 1
+  if [ $oss_upload_path_length -gt 1 ]; then
+    tmpIndex=0
+    printf "%-4s %-20s\n" 编号 上传地址
+    for entry in "${oss_file_path_array[@]}"
+    do
+      tmp=${entry%/*}
+      _tmp_array+=($tmp)
+      tempTitle=${tmp##*/}
+      printf "%-4s %-20s\n" $tmpIndex $tempTitle
+      let "tmpIndex++"
+      done
+      echo "---------------------------------"
+      echo
+      echo "输入编号 0 - `expr ${#_tmp_array[@]} - 1`"
+      read answer
+      oss_upload_path=${oss_upload_path_array[answer]}
+      oss_file_path=${oss_file_path_array[answer]}
+      echo "上传地址为：$oss_upload_path 下载地址为：$oss_file_path"
+  else
+    oss_upload_path=${oss_upload_path_array[0]}
+    oss_file_path=${oss_file_path_array[0]}
   fi
 else
   echo "oss_access_key_secret不存在"
