@@ -81,6 +81,7 @@ echo '5b:🧑🏻‍💻 Appstore (上传)'
 echo '6: 📦 Android (aab)'
 echo '7: 📦 Android (all channel)'
 echo '8: 📦 Android (input channel)'
+echo '9: 📦 Web'
 echo
 echo "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀"
 
@@ -127,6 +128,10 @@ case $aNum in
   echo "输入渠道名称"
   read channel
   sh build_apk.sh $project "channel" $channel
+  ;;
+9)
+  echo '你选择了 9 Web'
+  sh build_web.sh $project
   ;;
 *)
   echo '你没有正确输入, 联系我 -> https://github.com/OctMon/build.sh'
