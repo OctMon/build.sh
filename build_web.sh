@@ -1,17 +1,17 @@
 cd $1
 
 name=$(cat pubspec.yaml | grep "name: " | awk '{print $2}' | head -n 1)
-renderer="$2"
+web_base_href=$(cat pubspec.yaml | grep "web_base_href: " | awk '{print $2}')
 
-echo "renderer: $renderer"
+echo "web_base_href: $web_base_href"
 
 flutter clean
 
 flutter packages get
 
-if [[ -n "$renderer" ]]
+if [[ -n "$web_base_href" ]]
 then
-  flutter build web --web-renderer $renderer
+  flutter build web --base-href=$web_base_href
 else
   flutter build web
 fi

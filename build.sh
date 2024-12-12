@@ -77,12 +77,11 @@ echo '2: 📱 Beta-android'
 echo '3: 📱 Beta-all'
 echo '4: 🎈 Release-all'
 echo '5a:🧑🏻‍💻 Appstore (验证)'
-echo '5b:🧑🏻‍💻 Appstore (上传)'
+echo '5:🧑🏻‍💻 Appstore (上传)'
 echo '6: 📦 Android (aab)'
 echo '7: 📦 Android (all channel)'
 echo '8: 📦 Android (input channel)'
-echo '9a: 📦 Web'
-echo '9b: 📦 Web renderer html'
+echo '9: 📦 Web'
 echo
 echo "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀"
 
@@ -112,8 +111,8 @@ case $aNum in
   echo '你选择了 5a Appstore (验证)'
   sh build_ipa.sh $project "validate"
   ;;
-5b)
-  echo '你选择了 5b Appstore (上传)'
+5)
+  echo '你选择了 5 Appstore (上传)'
   sh build_ipa.sh $project "upload"
   ;;
 6)
@@ -130,13 +129,9 @@ case $aNum in
   read channel
   sh build_apk.sh $project "channel" $channel
   ;;
-9a)
-  echo '你选择了 9a Web'
+9)
+  echo '你选择了 9 Web'
   sh build_web.sh $project
-  ;;
-9b)
-  echo '你选择了 9b Web renderer html'
-  sh build_web.sh $project html
   ;;
 *)
   echo '你没有正确输入, 联系我 -> https://github.com/OctMon/build.sh'
