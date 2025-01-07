@@ -1,15 +1,15 @@
 cd $1
 
-flutter clean
+fvm flutter clean
 
-flutter packages get
+fvm flutter packages get
 
 apk_path="build/app/outputs/apk/release/"
 apk_file="${apk_path}app-release.apk"
 
 if [[ -n $3 ]]; then
   echo "🗂️  $3"
-  flutter build apk --target-platform android-arm64 --dart-define=app-channel=$3 --obfuscate --split-debug-info=symbols
+  fvm flutter build apk --target-platform android-arm64 --dart-define=app-channel=$3 --obfuscate --split-debug-info=symbols
   if [ -f "$apk_file" ]; then
     echo "$apk_file exists."
     mv $apk_file $apk_path$3.apk
@@ -27,7 +27,7 @@ else
     mkdir channel
     build_apk(){
       echo "build $1 ..."
-      flutter build apk --target-platform android-arm64 --dart-define=app-channel=$1 --obfuscate --split-debug-info=symbols
+      fvm flutter build apk --target-platform android-arm64 --dart-define=app-channel=$1 --obfuscate --split-debug-info=symbols
     }
 
     channel_packages=$(cat pubspec.yaml | grep "channel_packages: " | awk '{print $2}')
@@ -57,8 +57,8 @@ else
 
   else
     echo "📦 $2"
-    # flutter build appbundle --obfuscate --split-debug-info=symbols
-    flutter build appbundle --target-platform android-arm64 --obfuscate --split-debug-info=symbols
+    # fvm flutter build appbundle --obfuscate --split-debug-info=symbols
+    fvm flutter build appbundle --target-platform android-arm64 --obfuscate --split-debug-info=symbols
     open build/app/outputs/bundle/release
     say "aab打包成功"
   fi

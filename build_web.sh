@@ -5,15 +5,15 @@ web_base_href=$(cat pubspec.yaml | grep "web_base_href: " | awk '{print $2}')
 
 echo "web_base_href: $web_base_href"
 
-flutter clean
+fvm flutter clean
 
-flutter packages get
+fvm flutter packages get
 
 if [[ -n "$web_base_href" ]]
 then
-  flutter build web --base-href=$web_base_href
+  fvm flutter build web --base-href=$web_base_href
 else
-  flutter build web
+  fvm flutter build web
 fi
 
 if [ -e build ]; then
