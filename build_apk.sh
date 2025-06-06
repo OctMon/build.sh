@@ -4,15 +4,18 @@ fvm flutter clean
 
 fvm flutter packages get
 
+name=$(cat pubspec.yaml | grep "name: " | awk '{print $2}' | head -n 1)
+version=$(cat pubspec.yaml | grep "version: " | awk '{print $2}' | head -n 1)
+
 apk_path="build/app/outputs/apk/release/"
 apk_file="${apk_path}app-release.apk"
 
 if [[ -n $3 ]]; then
-  echo "🗂️  $3"
+  echo "🗂️ $name $version  $3"
   fvm flutter build apk --target-platform android-arm64 --dart-define=app-channel=$3 --obfuscate --split-debug-info=symbols
   if [ -f "$apk_file" ]; then
     echo "$apk_file exists."
-    mv $apk_file $apk_path$3.apk
+    mv $apk_file ${apk_path}${name}_$3_${version}.apk
     open $apk_path
     say "$3打包成功"
   else
