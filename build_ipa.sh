@@ -18,11 +18,6 @@ appstore_api_key=$(cat pubspec.yaml | grep "appstore_api_key: " | awk '{print $2
 appstore_api_issure=$(cat pubspec.yaml | grep "appstore_api_issure: " | awk '{print $2}')
 ipa="build/ios/ipa/$name.ipa"
 
-# https://github.com/flutter/flutter/issues/166367
-# 临时解决上传商店错误
-# ITMS-90048: This bundle is invalid - Your archive contains paths that are not allowed: [._Symbols]
-zip -d "$ipa" ._Symbols/
-
 if [[ $2 == "validate" ]]; then
     echo "🌞$2"
     # 验证
