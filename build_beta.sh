@@ -130,10 +130,10 @@ if [ $androidFlag == true ]; then
   echo "---------------------------------"
   if [[ $2 == "release" ]]; then
     echo "build android beta release"
-    fvm flutter build apk --dart-define=app-channel=beta --obfuscate --split-debug-info=symbols
+    fvm flutter build apk --target-platform android-arm64 --dart-define=app-channel=beta --obfuscate --split-debug-info=symbols
   else
     echo "build android beta test"
-    fvm flutter build apk --dart-define=app-channel=beta --dart-define=app-debug-flag=true --obfuscate --split-debug-info=symbols
+    fvm flutter build apk --target-platform android-arm64 --dart-define=app-channel=beta --dart-define=app-debug-flag=true --obfuscate --split-debug-info=symbols
   fi
   echo "---------------------------------"
   echo
