@@ -12,7 +12,7 @@ apk_file="${apk_path}app-release.apk"
 
 if [[ -n $3 ]]; then
   echo "🗂️ $name $version  $3"
-  fvm flutter build apk --target-platform android-arm64 --dart-define=app-channel=$3 --obfuscate --split-debug-info=symbols
+  fvm flutter build apk --target-platform android-arm64 --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD) --dart-define=app-channel=$3 --obfuscate --split-debug-info=symbols
   if [ -f "$apk_file" ]; then
     echo "$apk_file exists."
     mv $apk_file ${apk_path}${name}_$3_${version}.apk
@@ -30,7 +30,7 @@ else
     mkdir channel
     build_apk(){
       echo "build $1 ..."
-      fvm flutter build apk --target-platform android-arm64 --dart-define=app-channel=$1 --obfuscate --split-debug-info=symbols
+      fvm flutter build apk --target-platform android-arm64 --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD) --dart-define=app-channel=$1 --obfuscate --split-debug-info=symbols
     }
 
     channel_packages=$(cat pubspec.yaml | grep "channel_packages: " | awk '{print $2}')
@@ -61,7 +61,7 @@ else
   else
     echo "📦 $2"
     # fvm flutter build appbundle --obfuscate --split-debug-info=symbols
-    fvm flutter build appbundle --target-platform android-arm64 --obfuscate --split-debug-info=symbols
+    fvm flutter build appbundle --target-platform android-arm64 --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD) --obfuscate --split-debug-info=symbols
     open build/app/outputs/bundle/release
     say "aab打包成功"
   fi

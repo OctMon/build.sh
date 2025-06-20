@@ -7,7 +7,7 @@ fvm flutter clean
 
 fvm flutter packages get
 
-fvm flutter build ipa --dart-define=app-channel=appstore --obfuscate --split-debug-info=symbols
+fvm flutter build ipa --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD) --dart-define=app-channel=appstore --obfuscate --split-debug-info=symbols
 
 #  appstore_api_key 为密钥ID, appstore_api_issure 为 Issuer Id
 # ·验证成功后会提示 No errors validating ……

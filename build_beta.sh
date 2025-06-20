@@ -111,10 +111,10 @@ if [ $iosFlag == true ]; then
   echo "---------------------------------"
   if [[ $2 == "release" ]]; then
     echo "build iOS beta release"
-    fvm flutter build ipa --dart-define=app-channel=official --export-method ad-hoc --obfuscate --split-debug-info=symbols
+    fvm flutter build ipa --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD) --dart-define=app-channel=official --export-method ad-hoc --obfuscate --split-debug-info=symbols
   else
     echo "build iOS beta test"
-    fvm flutter build ipa --dart-define=app-channel=official --dart-define=app-debug-flag=true --export-method ad-hoc --obfuscate --split-debug-info=symbols
+    fvm flutter build ipa --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD) --dart-define=app-channel=official --dart-define=app-debug-flag=true --export-method ad-hoc --obfuscate --split-debug-info=symbols
   fi
   if [ -f "$build_ios_file" ]; then
     ios_finished=true
@@ -130,10 +130,10 @@ if [ $androidFlag == true ]; then
   echo "---------------------------------"
   if [[ $2 == "release" ]]; then
     echo "build android beta release"
-    fvm flutter build apk --target-platform android-arm64 --dart-define=app-channel=beta --obfuscate --split-debug-info=symbols
+    fvm flutter build apk --target-platform android-arm64 --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD) --dart-define=app-channel=beta --obfuscate --split-debug-info=symbols
   else
     echo "build android beta test"
-    fvm flutter build apk --target-platform android-arm64 --dart-define=app-channel=beta --dart-define=app-debug-flag=true --obfuscate --split-debug-info=symbols
+    fvm flutter build apk --target-platform android-arm64 --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD) --dart-define=app-channel=beta --dart-define=app-debug-flag=true --obfuscate --split-debug-info=symbols
   fi
   echo "---------------------------------"
   echo

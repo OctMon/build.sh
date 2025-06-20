@@ -11,9 +11,9 @@ fvm flutter packages get
 
 if [[ -n "$web_base_href" ]]
 then
-  fvm flutter build web --base-href=$web_base_href
+  fvm flutter build web --base-href=$web_base_href --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD)
 else
-  fvm flutter build web
+  fvm flutter build web --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD)
 fi
 
 if [ -e build ]; then
