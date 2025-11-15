@@ -81,6 +81,7 @@ echo '5:🧑🏻‍💻 Appstore (上传)'
 echo '6: 📦 Android (aab)'
 echo '7: 📦 Android (all channel)'
 echo '8: 📦 Android (input channel)'
+echo '9a: 📦 Web Beta'
 echo '9: 📦 Web'
 echo
 echo "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀"
@@ -128,6 +129,10 @@ case $aNum in
   echo "输入渠道名称"
   read channel
   sh build_apk.sh $project "channel" $channel
+  ;;
+9a)
+  echo '你选择了 9 Web Beta'
+  sh build_web.sh $project "beta"
   ;;
 9)
   echo '你选择了 9 Web'
