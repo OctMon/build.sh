@@ -83,6 +83,8 @@ echo '7: 📦 Android (all channel)'
 echo '8: 📦 Android (input channel)'
 echo '9a: 📦 Web Beta'
 echo '9: 📦 Web'
+echo '10a: 🖥️ Appstore Mac (验证)'
+echo '10: 🖥️ Appstore Mac (上传)'
 echo
 echo "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀"
 
@@ -138,6 +140,14 @@ case $aNum in
   echo '你选择了 9 Web'
   sh build_web.sh $project
   ;;
+10a)
+  echo '你选择了 10a Appstore Mac (验证)'
+  sh build_macos.sh $project "validate"
+  ;;
+10)
+  echo '你选择了 10 Appstore Mac (上传)'
+  sh build_macos.sh $project "upload"
+  ;;
 *)
   echo '你没有正确输入, 联系我 -> https://github.com/OctMon/build.sh'
   ;;
@@ -151,4 +161,3 @@ fi
 end=$(date +%s)
 duration=$((end - start))
 echo "Total time: $duration seconds"
-
