@@ -85,6 +85,7 @@ echo '9a: 📦 Web Beta'
 echo '9: 📦 Web'
 echo '10a: 🖥️ Appstore Mac (验证)'
 echo '10: 🖥️ Appstore Mac (上传)'
+echo '11: 📦 Android Official + Pgyer'
 echo
 echo "🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀"
 
@@ -147,6 +148,10 @@ case $aNum in
 10)
   echo '你选择了 10 Appstore Mac (上传)'
   sh build_macos.sh $project "upload"
+  ;;
+11)
+  echo '你选择了 11 Android Official + Pgyer'
+  sh build_apk.sh $project "official"
   ;;
 *)
   echo '你没有正确输入, 联系我 -> https://github.com/OctMon/build.sh'

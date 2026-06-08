@@ -1,16 +1,53 @@
 cd $1
 
+get_pubspec_value() {
+  local key="$1"
+  awk -F ': ' -v search_key="$key" '$1 == search_key {print $2; exit}' pubspec.yaml
+}
+
+require_env() {
+  local key="$1"
+  local value="${!key:-}"
+  if [[ -z "$value" ]]; then
+    echo "缺少环境变量 $key" >&2
+    exit 1
+  fi
+}
+
 fvm flutter clean
 
 fvm flutter packages get
 
-name=$(cat pubspec.yaml | grep "name: " | awk '{print $2}' | head -n 1)
-version=$(cat pubspec.yaml | grep "version: " | awk '{print $2}' | head -n 1)
+name=$(get_pubspec_value "name")
+version=$(get_pubspec_value "version")
+require_env "PGYER_API_KEY"
+pgyer_api_key="${PGYER_API_KEY}"
 
 apk_path="build/app/outputs/apk/release/"
 apk_file="${apk_path}app-release.apk"
 
-if [[ -n $3 ]]; then
+if [[ "$2" == "official" ]]; then
+  echo "📦 official"
+  fvm flutter build apk --target-platform android-arm64 --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD) --dart-define=app-channel=official --obfuscate --split-debug-info=symbols
+
+  if [[ ! -f "$apk_file" ]]; then
+    echo "$apk_file does not exist." >&2
+    say "official打包失败"
+    exit 1
+  fi
+
+  official_apk="${apk_path}${name}_official_${version}.apk"
+  mv "$apk_file" "$official_apk"
+  open "$apk_path"
+
+  echo "正在上传apk到蒲公英..."
+  if ! curl -F "file=@${official_apk}" -F "_api_key=${pgyer_api_key}" -F "buildUpdateDescription=脚本自动上传" https://www.pgyer.com/apiv2/app/upload; then
+    echo "上传apk到蒲公英失败" >&2
+    exit 1
+  fi
+
+  say "official上传蒲公英成功"
+elif [[ -n $3 ]]; then
   echo "🗂️ $name $version  $3"
   fvm flutter build apk --target-platform android-arm64 --dart-define=git-branch=$(git rev-parse --abbrev-ref HEAD) --dart-define=git-commit=$(git rev-parse --short HEAD) --dart-define=app-channel=$3 --obfuscate --split-debug-info=symbols
   if [ -f "$apk_file" ]; then
