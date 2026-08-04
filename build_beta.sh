@@ -1,16 +1,6 @@
 cd $1
 
-require_env() {
-  local key="$1"
-  local value="${!key:-}"
-  if [[ -z "$value" ]]; then
-    echo "缺少环境变量 $key" >&2
-    exit 1
-  fi
-}
-
-require_env "PGYER_API_KEY"
-pgyer_api_key="${PGYER_API_KEY}"
+pgyer_api_key="${PGYER_API_KEY:-}"
 
 oss_access_key_id=$(cat pubspec.yaml | grep "oss_access_key_id: " | awk '{print $2}')
 oss_access_key_secret=$(cat pubspec.yaml | grep "oss_access_key_secret: " | awk '{print $2}')
@@ -22,7 +12,11 @@ version=$(cat pubspec.yaml | grep "version: " | awk '{print $2}' | head -n 1)
 iosFlag=false
 androidFlag=false
 
-echo "PGYER_API_KEY存在"
+if [[ -n "${pgyer_api_key}" ]]; then
+  echo "PGYER_API_KEY存在"
+else
+  echo "未配置 PGYER_API_KEY，跳过蒲公英上传"
+fi
 
 ossUtilInstall=0
 if [[ -n "${oss_access_key_secret}" ]]
